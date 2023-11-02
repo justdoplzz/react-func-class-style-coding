@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import './App.css';
 
 function App() {
@@ -12,14 +12,21 @@ function App() {
 }
 
 function FuncComp(props){
+  var numberState = useState(props.initNumber);     // initNumber 를 사용하고싶을 때는 useState에 첫번째 인자에 값을 줌
+  var number = numberState[0];                      // 첫번째 값은 현재 상태값임
+  var setNumber = numberState[1];                   // 두번째 값은 상태를 바꿀수있는 값임(=setState)
+  console.log('numberState', numberState);
   return (
     <div className="container">
       <h2>function style component</h2>
-      <p>Number : {props.initNumber}</p>
+      <p>Number : {number}</p>
+      <input type="button" value="random" onClick={
+          function(){
+            setNumber(Math.random());
+          }}></input>
     </div>
   );
 }
-
 
 class ClassComp extends Component{
   state={
