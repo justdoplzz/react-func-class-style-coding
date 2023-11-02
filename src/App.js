@@ -23,13 +23,17 @@ function FuncComp(props){
 
 class ClassComp extends Component{
   state={
-    number:this.props.initNumber
+    number:this.props.initNumber            // props 를 통해 전달된 값을 set 함
   }
   render(){
     return(
       <div className="container">
         <h2>class style component</h2>
         <p>Number : {this.state.number}</p>
+        <input type="button" value="random" onClick={
+          function(){
+            this.setState({number:Math.random()})
+          }.bind(this)}></input>
       </div>
     )
   }
