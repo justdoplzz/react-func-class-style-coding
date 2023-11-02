@@ -2,11 +2,19 @@ import React, { Component, useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
+  var [funcShow, setFuncShow] = useState(true);     // true : 기본적으로 보이게 함
+  var [classShow, setClassShow] = useState(true);   // false : 안보이게 함
   return (
     <div className="container">
       <h1>Hello, World!!!!!</h1>
-      <FuncComp initNumber={2}></FuncComp>
-      <ClassComp initNumber={2}></ClassComp>
+      <input type="button" value="remove func" onClick={function(){
+        setFuncShow(false);
+      }}></input>
+      <input type="button" value="remove class" onClick={function(){
+        setClassShow(false);
+      }}></input>
+      {funcShow ? <FuncComp initNumber={2}></FuncComp> : null}
+      {classShow ? <ClassComp initNumber={2}></ClassComp> : null}
     </div>
   );
 }
@@ -95,6 +103,9 @@ class ClassComp extends Component{
   }
   componentDidUpdate(nextProps, nextState){
     console.log('%cclass => componentDidUpdate', classStyle);
+  }
+  componentWillUnmount(){
+    console.log('%cclass => componentWillUnmount', classStyle);
   }
   render(){
     console.log('%cclass => render', classStyle);
