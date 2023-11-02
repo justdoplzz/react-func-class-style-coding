@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
@@ -11,6 +11,8 @@ function App() {
   );
 }
 
+var funcStyle = 'color:blue';
+var funcId = 0;
 function FuncComp(props){
   var numberState = useState(props.initNumber);     // initNumber 를 사용하고싶을 때는 useState에 첫번째 인자에 값을 줌
   var number = numberState[0];                      // 첫번째 값은 현재 상태값임
@@ -24,6 +26,14 @@ function FuncComp(props){
 
   // 2. 축약된 useState 사용법
   var [_date, setDate] = useState((new Date()).toString());
+
+  // side effect (부가적인 작용), 복수개 설치 가능
+  useEffect(function(){           // render가 끝난 후 호출됨   (=componentDidMount, componentDidUpdate)
+    console.log('%cfunc => useEffect (=componentDidMount & componentDidUpdate) ' +(++funcId), funcStyle);
+    document.title = number + ' : ' + _date;        // 타이틀(탭이름)이 바뀜
+  })
+
+  console.log('%cfunc => render ' +(++funcId), funcStyle);
 
   return (
     <div className="container">
