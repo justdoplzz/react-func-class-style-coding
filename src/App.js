@@ -31,6 +31,10 @@ function FuncComp(props){
   useEffect(function(){           // render가 끝난 후 호출됨   (=componentDidMount, componentDidUpdate)
     console.log('%cfunc => useEffect (=componentDidMount & componentDidUpdate) ' +(++funcId), funcStyle);
     document.title = number + ' : ' + _date;        // 타이틀(탭이름)이 바뀜
+
+    return function(){          // = clean up (useEffect가 실행되고, 다시 useEffect를 실행하기 전에 정리정돈 하는 작업)
+      console.log('%cfunc => useEffect return (=componentDidMount & componentDidUpdate) ' +(++funcId), funcStyle);
+    }
   })
 
   console.log('%cfunc => render ' +(++funcId), funcStyle);
