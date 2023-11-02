@@ -44,12 +44,30 @@ function FuncComp(props){
   );
 }
 
+var classStyle = 'color:red';
 class ClassComp extends Component{
   state={
     number:this.props.initNumber,            // props 를 통해 전달된 값을 set 함
     date:(new Date()).toString()
   }
+  componentWillMount(){         // render가 실행되기 전에 componentWillMount 작용
+    console.log('%cclass => componentWillMount', classStyle);
+  }
+  componentDidMount(){          // render가 실행되고나서 처리해야할 일이 있을 때 componentDidMount 사용
+    console.log('%cclass => componentDidMount', classStyle);
+  }
+  shouldComponentUpdate(nextProps, nextState){          // 성능과 관계있음
+    console.log('%cclass => shouldComponentUpdate', classStyle);
+    return true;             // true : render 호출 , false : render 미호출
+  }
+  componentWillUpdate(nextProps, nextState){
+    console.log('%cclass => componentWillUpdate', classStyle);
+  }
+  componentDidUpdate(nextProps, nextState){
+    console.log('%cclass => componentDidUpdate', classStyle);
+  }
   render(){
+    console.log('%cclass => render', classStyle);
     return(
       <div className="container">
         <h2>class style component</h2>
