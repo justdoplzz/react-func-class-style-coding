@@ -27,15 +27,31 @@ function FuncComp(props){
   // 2. 축약된 useState 사용법
   var [_date, setDate] = useState((new Date()).toString());
 
+  // componentDidMount 만 사용하고싶을 때
+  useEffect(function(){
+    console.log('%cfunc => useEffect (=componentDidMount) ' +(++funcId), funcStyle);
+    document.title = number;
+    return function(){
+      console.log('%cfunc => useEffect return (=componentDidMount) ' +(++funcId), funcStyle);
+    }
+  }, []);           // 빈 배열 전달 -> 1회만 실행
+
   // side effect (부가적인 작용), 복수개 설치 가능
   useEffect(function(){           // render가 끝난 후 호출됨   (=componentDidMount, componentDidUpdate)
-    console.log('%cfunc => useEffect (=componentDidMount & componentDidUpdate) ' +(++funcId), funcStyle);
-    document.title = number + ' : ' + _date;        // 타이틀(탭이름)이 바뀜
-
+    console.log('%cfunc => useEffect number (=componentDidMount & componentDidUpdate) ' +(++funcId), funcStyle);
+    document.title = number;        // 타이틀(탭이름)이 바뀜
     return function(){          // = clean up (useEffect가 실행되고, 다시 useEffect를 실행하기 전에 정리정돈 하는 작업)
-      console.log('%cfunc => useEffect return (=componentDidMount & componentDidUpdate) ' +(++funcId), funcStyle);
+      console.log('%cfunc => useEffect return number (=componentDidMount & componentDidUpdate) ' +(++funcId), funcStyle);
     }
-  })
+  }, [number]);       // 배열안의 인자값 상태가 변경되었을 때만 첫번째 인자인 콜백함수가 호출  -> 성능 향상
+
+  useEffect(function(){
+    console.log('%cfunc => useEffect date (=componentDidMount & componentDidUpdate) ' +(++funcId), funcStyle);
+    document.title = _date;
+    return function(){
+      console.log('%cfunc => useEffect return date (=componentDidMount & componentDidUpdate) ' +(++funcId), funcStyle);
+    }
+  }, [_date]);
 
   console.log('%cfunc => render ' +(++funcId), funcStyle);
 
@@ -74,7 +90,7 @@ class ClassComp extends Component{
     console.log('%cclass => shouldComponentUpdate', classStyle);
     return true;             // true : render 호출 , false : render 미호출
   }
-  componentWillUpdate(nextProps, nextState){
+  componentWillUpdate(nextProps, nextState){          // state가 바뀔때마다 실행
     console.log('%cclass => componentWillUpdate', classStyle);
   }
   componentDidUpdate(nextProps, nextState){
